@@ -12,7 +12,7 @@ fake = Faker()
 # no need for sqlite authentication, just store uname/password
 #add alternative option to guess easy creds
 uname = "admin"
-pwd = "password"
+pwd = "admin"
 
 app.secret_key = "pinrg8gns#arjg;/-]]"
 
@@ -23,8 +23,9 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 @app.route("/")
 def index():
     success = request.args.get("loginSuccessful")
+    userid = request.args.get("userId", default=rnd.randint(1, 300))
     if success is not None and success.lower() == "true":
-        return redirect(f"/users/{rnd.randint(1, 300)}")
+        return redirect(f"/users/{userid}")
     elif success is not None:
         return render_template('home.html', login="Failed")
     else:
@@ -33,13 +34,12 @@ def index():
 @app.route("/verify-login", methods=["POST"])
 def verify_login():
     if request.form.get('username') == uname and request.form.get('password') == pwd:
-        return redirect("/?userId=0&loginSuccessful=True")
+        resp = make_response(redirect("/?userId=0&loginSuccessful=True"))
+        resp.set_cookie('is_admin', 'true')
+        return resp
     else:
-        return redirect("/?userId=0&loginSuccessful=False")
+        return redirect("/?loginSuccessful=False")
 
-    # resp = make_response(render_template("hungry.html"))
-    # resp.set_cookie('is_admin', "false")
-    # return resp
 
 @app.route("/users/<int:user_id>")
 def user_profile(user_id):
