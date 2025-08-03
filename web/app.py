@@ -45,30 +45,7 @@ def verify_login():
 def user_profile(user_id):
     """Render fake user profile with data consistent based on user_id"""
     if user_id != 1:
-        Faker.seed(user_id)
-        rnd.seed(user_id)
-
-        user = {
-            "name": fake.name(),
-            "username": fake.user_name(),
-            "profile_img": f"https://picsum.photos/seed/{user_id}/400/400",
-            "bio": fake.text(),
-            "website": fake.url(),
-            "follow": {
-                "ers" : rnd.randint(0, 2**8),
-                "ing" : rnd.randint(0, 2**8)
-            },
-            "email": fake.safe_email(),
-            "posts": {
-                "1":  f"https://picsum.photos/seed/{user_id}/400/400",
-                "2":  f"https://picsum.photos/seed/{user_id}/400/400",
-                "3":  f"https://picsum.photos/seed/{user_id}/400/400",
-                "4":  f"https://picsum.photos/seed/{user_id}/400/400",
-                "5":  f"https://picsum.photos/seed/{user_id}/400/400",
-            }
-        }
-
-        return render_template("user-profile.html", user=user)
+        return render_template("user-profile.html", user=generate_user(user_id))
     
     user = {
         "name": "Admin",
@@ -96,7 +73,24 @@ def admin_console():
 
     if is_admin == "true":
         welcome = "Congratulations! You hacked this site!"
-        return render_template("admin-console.html", welcome_msg=welcome, win=True)
+        users = {
+            "1": {
+            "name": "Admin",
+            "username": "Admin",
+            "profile_img": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+            "bio": "This is the admin user for ShefESH HTS",
+            "follow": {
+                "ers": 0,
+                "ing": 0
+            },
+            "email": "admin@shefesh.com",
+            }
+        }
+        for i in range(2, 9):
+            users[str(i)] = generate_user(i)
+
+            
+        return render_template("admin-console.html", welcome_msg=welcome, win=True, users=users)
     else:
         msg = "Error: only admins are allowed to access the admin console."
         welcome = render_template_string(msg)
@@ -111,6 +105,31 @@ def cleanup():
     resp.set_cookie('is_admin', 'false')
     return resp
 
+def generate_user(id):
+    Faker.seed(id)
+    rnd.seed(id)
+
+    user = {
+        "name": fake.name(),
+        "username": fake.user_name(),
+        "profile_img": f"https://picsum.photos/seed/{id}/400/400",
+        "bio": fake.text(),
+        "website": fake.url(),
+        "follow": {
+            "ers" : rnd.randint(0, 2**8),
+            "ing" : rnd.randint(0, 2**8)
+        },
+        "email": fake.safe_email(),
+        "posts": {
+            "1":  f"https://picsum.photos/seed/{id}/400/400",
+            "2":  f"https://picsum.photos/seed/{id}/400/400",
+            "3":  f"https://picsum.photos/seed/{id}/400/400",
+            "4":  f"https://picsum.photos/seed/{id}/400/400",
+            "5":  f"https://picsum.photos/seed/{id}/400/400",
+        }
+    }
+    
+    return user
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=2346, debug=True)
