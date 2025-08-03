@@ -30,6 +30,9 @@
             <span class="value">{{ user.follow.ers }}</span>
         </div>
     </div>
+    <form action="/cleanup" >
+        <input type="submit" class="admin-button" value="Logout" />
+    </form>
 </div>
 {% if not is_admin %}
 <div class="post-container">
