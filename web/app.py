@@ -77,6 +77,7 @@ def admin_console():
             "1": {
             "name": "Admin",
             "username": "Admin",
+            "password": fake.password(),
             "profile_img": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
             "bio": "This is the admin user for ShefESH HTS",
             "follow": {
@@ -89,7 +90,7 @@ def admin_console():
         for i in range(2, 9):
             users[str(i)] = generate_user(i)
 
-            
+
         return render_template("admin-console.html", welcome_msg=welcome, win=True, users=users)
     else:
         msg = "Error: only admins are allowed to access the admin console."
@@ -112,6 +113,7 @@ def generate_user(id):
     user = {
         "name": fake.name(),
         "username": fake.user_name(),
+        "password": bad_password(),
         "profile_img": f"https://picsum.photos/seed/{id}/400/400",
         "bio": fake.text(),
         "website": fake.url(),
@@ -130,6 +132,28 @@ def generate_user(id):
     }
     
     return user
+
+def bad_password():
+    use_two_words = rnd.random() < 0.7 
+    
+    if use_two_words:
+        word_part = fake.word() + fake.word()
+    else:
+        word_part = fake.word()
+    
+    add_numbers = rnd.random() < 0.9
+    
+    if add_numbers:
+        num_length = rnd.choice([1, 2, 3, 4])
+        num = ''.join(str(rnd.randint(0, 9)) for _ in range(num_length))
+        password = word_part + num
+    else:
+        password = word_part
+    
+    if rnd.random() < 0.3:
+        password = password.capitalize()
+    
+    return password
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=2346, debug=True)
