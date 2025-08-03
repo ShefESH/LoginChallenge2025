@@ -16,9 +16,10 @@
         <tr>
             <th>ID</th>
             <th>Username</th>
-            <th>Role</th>
+            <th>Real Name</th>
             <th>Email</th>
-            <th>Status</th>
+            <th>Password</th>
+            <th>Date of Birth</th>
         </tr>
     </thead>
     <tbody>
@@ -29,10 +30,11 @@
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.password }}</td>
+            <td>{{ user.dob }}</td>
         </tr>
         {% endfor %}
         <tr>
-            <td colspan="5" style="text-align:center;">...</td>
+            <td colspan="6" style="text-align:center;">...</td>
         </tr>
     </tbody>
 </table>
