@@ -114,6 +114,7 @@ def generate_user(id):
         "name": fake.name(),
         "username": fake.user_name(),
         "password": bad_password(),
+        "dob": fake.date_of_birth(minimum_age=13, maximum_age=90),
         "profile_img": f"https://picsum.photos/seed/{id}/400/400",
         "bio": fake.text(),
         "website": fake.url(),
@@ -130,7 +131,7 @@ def generate_user(id):
             "title": fake.catch_phrase(),
             "img": f"https://picsum.photos/seed/{id}-{i}/400/400",
         }
-    
+
     return user
 
 def bad_password():
