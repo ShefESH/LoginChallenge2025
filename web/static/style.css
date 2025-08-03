@@ -150,3 +150,13 @@ form button {
 #form {
     padding-top: 0%;
 }
+
+
+table {
+    width: 60dvw;
+    height: 40dvh;
+}
+
+table td, table th {
+    padding: 5px;
+}

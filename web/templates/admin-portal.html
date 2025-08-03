@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}Cookie Jar{% endblock %}
+
+{% block content %}
+
+{{super()}}
+
+<h1>Admin Portal</h1>
+<h2>{{ welcome_msg }}</h2>
+
+{% if win %}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>admin</td>
+            <td>admin</td>
+            <td>admin@shefesh.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>bob</td>
+            <td>user</td>
+            <td>bob@outlook.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>charlie</td>
+            <td>user</td>
+            <td>charlie@yahoo.com</td>
+            <td>inactive</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>dana</td>
+            <td>moderator</td>
+            <td>dana@icloud.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>eve</td>
+            <td>user</td>
+            <td>eve@icloud.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>frank</td>
+            <td>user</td>
+            <td>frank@hotmail.com</td>
+            <td>inactive</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>grace</td>
+            <td>admin</td>
+            <td>grace@shefesh.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>heidi</td>
+            <td>user</td>
+            <td>heidi@gmail.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>ivan</td>
+            <td>moderator</td>
+            <td>ivan@hotmail.com</td>
+            <td>active</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>judy</td>
+            <td>user</td>
+            <td>judy@gmail.com</td>
+            <td>inactive</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align:center;">...</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form action="/cleanup">
+    <input type="submit" value="Restart" />
+</form>
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+
+{{super()}}
+
+{% endblock %}
