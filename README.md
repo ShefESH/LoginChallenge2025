@@ -71,7 +71,7 @@ Password: admin<br>
 > If the user correctly guesses these credentials on their first try, they will <i>technically</i> bypass the next two challenges but this is a good reminder of how weak/default credentials can compromise an entire application, regardless of other security mechanisms in place.
 
 ## Challenge 2
-Upon successful login, the user will be redirect to a random users profile page.
+Upon successful login, the user will be redirect to a random user's profile page.
 > Note: in Challenge 1 there is an extra parameter ```userId``` which is set to 1 by default. If the user modifies this (which they do not and are not expected to do) they will be redirect to this profile instead upon successful login.
 
 The data on each page is randomly generated at page load time, but stays consistent based on ```userId```.<br>
@@ -85,8 +85,9 @@ Hints:
 - If a site has an admin account, where do you think it would appear in an incrementing ID system?
 
 ## Challenge 3
-Once the user successfully 'accesses' the admin account, they should see a big blue button labelled 'Admin Console'. Upon clicking this button, they will be taken to the Admin Console page, but an error message about missing permission will be displayed (because they have not actually logged in as admin and thus are missing the permission).<br>
-The users goal is to realise that there is a cookie set in the browser `is_admin` which is set to `false` by default. Modifying this to `true` and then refreshing the page, will display the protected user data of the site, as well as a congratulations message!<br>
+Once the user successfully 'accesses' the admin account, they should see a big blue button labelled 'Admin Console'.<br>
+Upon clicking this button, they will be taken to the Admin Console page, but an error message about a missing permission will be displayed (because they have not actually logged in as admin and thus are missing the permission).<br>
+The user's goal is to realise that there is a cookie set in the browser `is_admin` which is set to `false` by default. Modifying this to `true` and then refreshing the page, will display the protected user data of the site, as well as a congratulations message!<br>
 > Note: If the user successfully logged in as the admin in Challenge 1, they will have the `is_admin` flag set to `true`, and thus will immediately see the congratulations message
 
 Hints:
