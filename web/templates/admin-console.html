@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Admin Console{% endblock %}
+
+{% block content %}
+
+{{super()}}
+
+<h1>Admin Portal</h1>
+<h2>{{ welcome_msg }}</h2>
+
+{% if win %}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user_id, user in users.items() %}
+        <tr>
+            <td>{{ user_id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="5" style="text-align:center;">...</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form action="/cleanup">
+    <input type="submit" value="Restart" />
+</form>
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+
+{{super()}}
+
+{% endblock %}
