@@ -33,9 +33,9 @@ def index():
 @app.route("/verify-login", methods=["POST"])
 def verify_login():
     if request.form.get('username') == uname and request.form.get('password') == pwd:
-        return redirect("/?loginSuccessful=True")
+        return redirect("/?userId=0&loginSuccessful=True")
     else:
-        return redirect("/?loginSuccessful=False")
+        return redirect("/?userId=0&loginSuccessful=False")
 
     # resp = make_response(render_template("hungry.html"))
     # resp.set_cookie('is_admin', "false")
@@ -44,7 +44,7 @@ def verify_login():
 @app.route("/users/<int:user_id>")
 def user_profile(user_id):
     """Render fake user profile with data consistent based on user_id"""
-    if user_id != 1:
+    if user_id != 0:
         return render_template("user-profile.html", user=generate_user(user_id))
     
     user = {
@@ -74,7 +74,7 @@ def admin_console():
     if is_admin == "true":
         welcome = "Congratulations! You hacked this site!"
         users = {
-            "1": {
+            "0": {
             "name": "Admin",
             "username": "Admin",
             "password": fake.password(),
@@ -87,7 +87,7 @@ def admin_console():
             "email": "admin@shefesh.com",
             }
         }
-        for i in range(2, 9):
+        for i in range(1, 9):
             users[str(i)] = generate_user(i)
 
 
@@ -121,38 +121,38 @@ def generate_user(id):
             "ers" : rnd.randint(0, 2**8),
             "ing" : rnd.randint(0, 2**8)
         },
-        "email": fake.safe_email(),
-        "posts": {
-            "1":  f"https://picsum.photos/seed/{id}/400/400",
-            "2":  f"https://picsum.photos/seed/{id}/400/400",
-            "3":  f"https://picsum.photos/seed/{id}/400/400",
-            "4":  f"https://picsum.photos/seed/{id}/400/400",
-            "5":  f"https://picsum.photos/seed/{id}/400/400",
-        }
+        "email": fake.free_email(),
+        "posts": {}
     }
+    user["posts_count"] = rnd.randint(0, 10)
+    for i in range(user["posts_count"]):
+        user["posts"][str(i)] = {
+            "title": fake.catch_phrase(),
+            "img": f"https://picsum.photos/seed/{id}-{i}/400/400",
+        }
     
     return user
 
 def bad_password():
-    use_two_words = rnd.random() < 0.7 
-    
+    use_two_words = rnd.random() < 0.7
+
     if use_two_words:
         word_part = fake.word() + fake.word()
     else:
         word_part = fake.word()
-    
+
     add_numbers = rnd.random() < 0.9
-    
+
     if add_numbers:
         num_length = rnd.choice([1, 2, 3, 4])
         num = ''.join(str(rnd.randint(0, 9)) for _ in range(num_length))
         password = word_part + num
     else:
         password = word_part
-    
+
     if rnd.random() < 0.3:
         password = password.capitalize()
-    
+
     return password
 
 if __name__ == "__main__":
