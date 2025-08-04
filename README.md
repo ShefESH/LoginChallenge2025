@@ -65,10 +65,10 @@ Hints:
 - URL parameters can often be manipulated directly in the browser's address bar — try experimenting there.
 - Not all applications verify the integrity of client-side parameters. Sometimes, trust is assumed.
 
-> Note: should there is only one correct login on the server side - the admin - whose details are <br>
+> Note: there is one correct login for the site - the admin - whose details are: <br>
 Username: admin<br>
 Password: admin<br>
-> If the user correctly guesses these credentials on their first try, they will <i>technically</i> bypass the next two challenges but this is a good reminder of how weak/default credentials can compromise an entire application, regardless of other security mechanisms in place.
+> If the user correctly guesses these credentials on their first try, they will <i>technically</i> bypass the next two challenges, but this is a good reminder of how weak/default credentials can compromise an entire site, regardless of other security mechanisms in place.
 
 ## Challenge 2
 Upon successful login, the user will be redirect to a random user's profile page.
